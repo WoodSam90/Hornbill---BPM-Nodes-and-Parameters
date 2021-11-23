@@ -1,0 +1,23 @@
+variables:
+- group: 'Group'
+- name: 'github-organisation'
+  value: 'WoodSam90'
+- name: 'github-repository'
+  value: 'Hornbill---BPM-Nodes-and-Parameters'
+
+trigger:
+- main
+
+pool:
+  vmImage: windows-2022
+
+stages:
+- stage: 'GitPush'
+  jobs:
+    - job: GitPush
+      steps:
+        - checkout: self
+        - script: git push https://$(GITHUB_PAT)@github.com/$(github-organisation)/$(github-repository).git HEAD:refs/heads/devops
+          displayName: 'Git push to remote repository'
+          env:
+            Group: $(GITHUB_PAT)
